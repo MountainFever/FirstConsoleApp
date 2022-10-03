@@ -12,7 +12,6 @@ namespace MqttPublisher {
             // See https://aka.ms/new-console-template for more information
             Console.WriteLine("So, let´s try to get a MQTT client up and running");
 
-
             /*
              * This sample creates a simple MQTT client and connects to a public broker.
              *
@@ -26,16 +25,17 @@ namespace MqttPublisher {
             var mqttClientOptions = new MqttClientOptionsBuilder()
                 .WithTcpServer("315cf2f48b994755bdeca8860316dfe6.s2.eu.hivemq.cloud", 8883) //URL, Port
                 .WithCredentials("Cobra390App", "8sF6e.26ALmX") //username, password
+                .WithTls() //SSL enabled
                 .Build();
 
             // This will throw an exception if the server is not available.
             // The result from this message returns additional data which was sent 
             // from the server. Please refer to the MQTT protocol specification for details.
-            mqttClient.ConnectAsync(mqttClientOptions);
+            var response = await mqttClient.ConnectAsync(mqttClientOptions);
 
             Console.WriteLine("The MQTT client is connected.");
 
-            //response.DumpToConsole();
+            response.DumpToConsole();
         }
     }
 }
